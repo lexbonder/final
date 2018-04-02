@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 30%;
+  margin: auto;
+}
+
+h1,
+form {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.input {
+  width: 165px;
+}
+
+article {
+  border: 2px solid black;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.top-of-card {
+  position: relative;
+}
+
+h2 {
+  margin: 0 0 20px;
+  display: inline-block;
+}
+
+
+button {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  font-size: 1em
+}
