@@ -17,16 +17,19 @@ const addItem = event => {
 
 const renderItems = marsItems => {
   marsItems.forEach( marsItem => {
-    let { itemName, packed } = marsItem;
-    let prePacked = packed ? 'checked' : ''
+    let { itemName, packed, id} = marsItem;
     $('.item-container').prepend(`
     <article>
       <div class="top-of-card">
         <h2>${itemName}</h2>
-        <button>Delete</button>
+        <button class='delete' id=${id}>Delete</button>
       </div>
-      <input type="checkbox" id="checkbox" ${prePacked}>
-      <label for="check">Packed</label>
+      <input 
+        type="checkbox"
+        id="checkbox${id}"
+        ${packed ? 'checked' : ''}
+      >
+      <label for="checkbox${id}">Packed</label>
     </article>
   `)
   })
@@ -39,5 +42,13 @@ const getItemList = async () => {
   renderItems(marsItems);
 }
 
+const deleteItem = async event => {
+  const { id } = event.target;
+  const initialFetch = await fetch(`http://localhost:3000/api/v1/marsItems/${id}`, {
+    method: 'DELETE'
+  })
+}
+
+$('.item-container').on('click', 'button', deleteItem)
 $('.submit').on('click', addItem)
 $('document').ready(getItemList)
