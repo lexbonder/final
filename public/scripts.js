@@ -2,7 +2,7 @@
 const addItem = async event => {
   event.preventDefault();
   const itemName = $('.input').val()
-  const initialFetch = await fetch('http://localhost:3000/api/v1/marsItems', {
+  const initialFetch = await fetch('/api/v1/marsItems', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -50,14 +50,14 @@ const renderItems = marsItems => {
 }
 
 const getItemList = async () => {
-  const initialFetch = await fetch('http://localhost:3000/api/v1/marsItems')
+  const initialFetch = await fetch('/api/v1/marsItems')
   const marsItems = await initialFetch.json();
   renderItems(marsItems);
 }
 
 const deleteItem = async event => {
   const { id } = event.target;
-  const initialFetch = await fetch(`http://localhost:3000/api/v1/marsItems/${id}`, {
+  const initialFetch = await fetch(`/api/v1/marsItems/${id}`, {
     method: 'DELETE'
   })
   $(`#item${id}`).remove() 
@@ -67,7 +67,7 @@ const togglePacked = async event => {
   const { checked, id } = event.target;
   const target = id.substr(8)
   console.log(target)
-  const initialFetch = await fetch(`http://localhost:3000/api/v1/marsItems/${target}`, {
+  const initialFetch = await fetch(`/api/v1/marsItems/${target}`, {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ packed: checked })
