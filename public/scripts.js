@@ -15,28 +15,8 @@ const addItem = async event => {
   }
 }
 
-const renderNewItem = (itemName, id) => {
+const renderNewItem = (itemName, id, packed) => {
   $('.item-container').prepend(`
-    <article id="item${id}">
-      <div class="top-of-card">
-        <h2>${itemName}</h2>
-        <button class='delete' id=${id}>Delete</button>
-      </div>
-      <input 
-        type="checkbox"
-        class="checkbox"
-        id="checkbox${id}"
-      >
-      <label for="checkbox${id}">Packed</label>
-    </article>
-  `);
-  $('form')[0].reset();
-}
-
-const renderItems = marsItems => {
-  marsItems.forEach( marsItem => {
-    let { itemName, packed, id} = marsItem;
-    $('.item-container').prepend(`
     <article id="item${id}">
       <div class="top-of-card">
         <h2>${itemName}</h2>
@@ -50,7 +30,14 @@ const renderItems = marsItems => {
       >
       <label for="checkbox${id}">Packed</label>
     </article>
-  `)
+  `);
+  $('form')[0].reset();
+}
+
+const renderItems = marsItems => {
+  marsItems.forEach( marsItem => {
+    let { itemName, packed, id} = marsItem;
+    renderNewItem(itemName, id, packed);
   })
 }
 
@@ -71,7 +58,6 @@ const deleteItem = async event => {
 const togglePacked = async event => {
   const { checked, id } = event.target;
   const target = id.substr(8)
-  console.log(target)
   const initialFetch = await fetch(`/api/v1/marsItems/${target}`, {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json'},

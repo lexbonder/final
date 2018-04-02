@@ -51,7 +51,7 @@ app.patch('/api/v1/marsItems/:id', (request, response) => {
   const { id } = request.params;
   const { packed } = request.body;
 
-  if (!packed) {
+  if (packed === undefined) {
     return response.status(422).send({ error: 'You need to include a new state < packed: true/false > in the body'})
   }
 

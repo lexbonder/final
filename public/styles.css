@@ -20,7 +20,8 @@ form {
 article {
   border: 2px solid black;
   padding: 20px;
-  margin: 20px 0;
+  margin: 20px auto;
+  width: 250px;
 }
 
 .top-of-card {
