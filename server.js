@@ -47,10 +47,20 @@ app.post('/api/v1/marsItems', (request, response) => {
     })
 })
 
+app.patch('/api/v1/marsItems/:id', (request, response) => {
+  const { id } = request.params;
+  const { packed } = request.body;
+
+  database('marsItems').where('id', id).update({ packed })
+    .then(result => {
+      response.status(200).json(result)
+    })
+})
+
 app.delete('/api/v1/marsItems/:id', (request, response) => {
   const { id } = request.params;
   database('marsItems').where('id', id).del()
-    .then( rows => {
+    .then(rows => {
       if (rows) {
         response.status(200).json(`${rows} items deleted successfully`)
       } else {

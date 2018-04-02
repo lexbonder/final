@@ -39,6 +39,7 @@ const renderItems = marsItems => {
       </div>
       <input 
         type="checkbox"
+        class="checkbox"
         id="checkbox${id}"
         ${packed ? 'checked' : ''}
       >
@@ -49,7 +50,6 @@ const renderItems = marsItems => {
 }
 
 const getItemList = async () => {
-  console.log('yo')
   const initialFetch = await fetch('http://localhost:3000/api/v1/marsItems')
   const marsItems = await initialFetch.json();
   renderItems(marsItems);
@@ -63,6 +63,19 @@ const deleteItem = async event => {
   $(`#item${id}`).remove() 
 }
 
+const togglePacked = async event => {
+  const { checked, id } = event.target;
+  const target = id.substr(8)
+  console.log(target)
+  const initialFetch = await fetch(`http://localhost:3000/api/v1/marsItems/${target}`, {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ packed: checked })
+  })
+}
+
+
 $('.item-container').on('click', 'button', deleteItem)
+$('.item-container').on('change', '.checkbox', togglePacked)
 $('.submit').on('click', addItem)
 $('document').ready(getItemList)
