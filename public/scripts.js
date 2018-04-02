@@ -1,18 +1,31 @@
 
-const addItem = event => {
-  event.preventDefault()
-  const $itemName = $('.input').val()
+const addItem = async event => {
+  event.preventDefault();
+  const itemName = $('.input').val()
+  const initialFetch = await fetch('http://localhost:3000/api/v1/marsItems', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ itemName })
+  })
+  if ( initialFetch.status === 201 ) {  
+    renderNewItem(itemName);
+  }
+}
+
+const renderNewItem = itemName => {
   $('.item-container').prepend(`
     <article>
       <div class="top-of-card">
-        <h2>${$itemName}</h2>
+        <h2>${itemName}</h2>
         <button>Delete</button>
       </div>
       <input type="checkbox" id="checkbox">
       <label for="check">Packed</label>
     </article>
-  `)
-  $('.input').reset()
+  `);
+  $('form')[0].reset();
 }
 
 const renderItems = marsItems => {

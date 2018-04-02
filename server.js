@@ -18,7 +18,32 @@ app.get('/api/v1/marsItems', (request, response) => {
       response.status(200).json(items)
     })
     .catch(error => {
-      response.status(500).send({error})
+      response.status(500).send({ error })
+    })
+})
+
+app.post('/api/v1/marsItems', (request, response) => {
+  const { itemName } = request.body;
+  if (!itemName) {
+    return response.status(422).send({error: 'You need to include an item name'})
+  }
+
+  database('marsItems').where('itemName', itemName).select()
+    .then(result => {
+      if(result.length) {
+        return response.status(400).send({error: 'That is alreay on the list'})
+      } else {
+        database('marsItems').insert({ itemName, packed: false }, 'id')
+          .then(id => {
+            response.status(201).json(id)
+          })
+          .catch(error => {
+            response.status(500).send({ error })
+          })
+      }
+    })
+    .catch(error => {
+      response.status(500).send({ error })
     })
 })
 
@@ -33,7 +58,7 @@ app.delete('/api/v1/marsItems/:id', (request, response) => {
       }
     })
     .catch( error => {
-      response.status(500).send({error})
+      response.status(500).send({ error })
     })
 })
 
