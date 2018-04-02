@@ -7,22 +7,27 @@ const addItem = async event => {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ itemName })
+    body: JSON.stringify({ itemName }, 'id')
   })
+  const response = await initialFetch.json()
   if ( initialFetch.status === 201 ) {  
-    renderNewItem(itemName);
+    renderNewItem(itemName, response[0]);
   }
 }
 
-const renderNewItem = itemName => {
+const renderNewItem = (itemName, id) => {
   $('.item-container').prepend(`
-    <article>
+    <article id="item${id}">
       <div class="top-of-card">
         <h2>${itemName}</h2>
-        <button>Delete</button>
+        <button class='delete' id=${id}>Delete</button>
       </div>
-      <input type="checkbox" id="checkbox">
-      <label for="check">Packed</label>
+      <input 
+        type="checkbox"
+        class="checkbox"
+        id="checkbox${id}"
+      >
+      <label for="checkbox${id}">Packed</label>
     </article>
   `);
   $('form')[0].reset();
