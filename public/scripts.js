@@ -79,7 +79,6 @@ const togglePacked = async event => {
   })
 }
 
-
 $('.item-container').on('click', 'button', deleteItem)
 $('.item-container').on('change', '.checkbox', togglePacked)
 $('.submit').on('click', addItem)
