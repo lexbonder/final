@@ -19,7 +19,7 @@ const renderItems = marsItems => {
   marsItems.forEach( marsItem => {
     let { itemName, packed, id} = marsItem;
     $('.item-container').prepend(`
-    <article>
+    <article id="item${id}">
       <div class="top-of-card">
         <h2>${itemName}</h2>
         <button class='delete' id=${id}>Delete</button>
@@ -47,6 +47,7 @@ const deleteItem = async event => {
   const initialFetch = await fetch(`http://localhost:3000/api/v1/marsItems/${id}`, {
     method: 'DELETE'
   })
+  $(`#item${id}`).remove() 
 }
 
 $('.item-container').on('click', 'button', deleteItem)
